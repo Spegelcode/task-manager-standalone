@@ -1,6 +1,15 @@
+// src/main.ts
 import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/app.config';
+import { provideRouter } from '@angular/router';
+import { AppShellComponent } from './app/app-shell.component';
 import { AppComponent } from './app/app.component';
+import { TaskDetailComponent } from './app/task-detail.component';
 
-bootstrapApplication(AppComponent, appConfig)
-  .catch((err) => console.error(err));
+const routes = [
+  { path: '', component: AppComponent },
+  { path: 'task/:id', component: TaskDetailComponent }
+];
+
+bootstrapApplication(AppShellComponent, {
+  providers: [provideRouter(routes)]
+});

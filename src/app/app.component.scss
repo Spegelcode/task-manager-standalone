@@ -1,0 +1,54 @@
+.container {
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
+}
+
+.input {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+input[type="text"] {
+  padding: 8px;
+  flex: 1;
+}
+
+button {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.done {
+  text-decoration: line-through;
+  color: gray;
+}
+.container {
+  padding: 2rem;
+  max-width: 600px;
+  margin: auto;
+}
+input[type="text"] {
+  padding: 0.5rem;
+  width: 100%;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+}
+button {
+  padding: 0.5rem 1rem;
+  margin-left: 0.5rem;
+}
