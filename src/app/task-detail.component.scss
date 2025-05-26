@@ -1,0 +1,143 @@
+.container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fdfdfd;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+
+  h2 {
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+
+  p {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    color: #444;
+  }
+
+  h3 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #555;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      background-color: #f5f5f5;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+
+      .subtask-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        input[type='checkbox'] {
+          transform: scale(1.2);
+          cursor: pointer;
+        }
+
+        span {
+          font-size: 1rem;
+          color: #333;
+        }
+
+        button {
+          background: none;
+          border: none;
+          cursor: pointer;
+          font-size: 0.9rem;
+          color: #007bff;
+          padding: 0.2rem 0.5rem;
+
+          &:hover {
+            text-decoration: underline;
+          }
+
+          &.delete-btn {
+            color: #dc3545;
+            font-size: 1.2rem;
+          }
+
+          &.toggle-description {
+            margin-left: auto;
+            color: #6c757d;
+          }
+        }
+      }
+
+      small {
+        margin-left: 2rem;
+        display: block;
+        color: #888;
+        font-size: 0.8rem;
+        margin-top: 0.3rem;
+      }
+
+      .description {
+        margin-left: 2rem;
+        margin-top: 0.5rem;
+        font-style: italic;
+        color: #555;
+        font-size: 0.9rem;
+      }
+
+      &:not(:last-child) {
+        margin-bottom: 1rem;
+      }
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+
+    input[type='text'],
+    textarea {
+      padding: 0.6rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      width: 100%;
+    }
+
+    button[type='submit'] {
+      align-self: flex-start;
+      padding: 0.6rem 1.2rem;
+      background-color: #28a745;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #218838;
+      }
+    }
+  }
+
+  > button {
+    margin-top: 2rem;
+    padding: 0.6rem 1.2rem;
+    background-color: #6c757d;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #5a6268;
+    }
+  }
+}

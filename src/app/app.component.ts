@@ -4,10 +4,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { NgChartsModule } from 'ng2-charts';
+import { OnInit } from '@angular/core';
+import { ChartData, ChartType } from 'chart.js';
+
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule],
+  imports: [CommonModule, FormsModule, HttpClientModule, NgChartsModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
@@ -94,12 +98,20 @@ export class AppComponent {
     const subtasks = task.subtasks;
     return subtasks && subtasks.length > 0 && subtasks.every(st => st.completed);
   }
-  get CompletedTasks(): Task[] {
-    return this.tasks.filter(task => this.isTaskCompleted(task));
-  }
-  get IncompleteTasks(): Task[] {
-  return this.tasks.filter(task => !this.isTaskCompleted(task));
+get completedTasks(): Task[] {
+  return this.tasks.filter(
+    task => this.isTaskCompleted(task) &&
+            task.title.toLowerCase().includes(this.searchText.toLowerCase())
+  );
 }
+
+get incompleteTasks(): Task[] {
+  return this.tasks.filter(
+    task => !this.isTaskCompleted(task) &&
+            task.title.toLowerCase().includes(this.searchText.toLowerCase())
+  );
+}
+
 
 
   onImportTodo(event: Event): void {
@@ -110,4 +122,29 @@ export class AppComponent {
       this.importTodo(selectedTodo);
     }
   }
+
+public pieChartLabels: string[] = ['Completed', 'Incomplete'];
+public pieChartData: ChartData<'pie', number[], string> = {
+  labels: ['Completed', 'Incomplete'],
+  datasets: [
+    {
+      data: [0, 0]
+    }
+  ]
+};
+public pieChartType: ChartType = 'pie';
+
+ngOnInit() {
+  this.updateChartData();
+}
+
+updateChartData() {
+  this.pieChartData.datasets[0].data = [
+    this.completedTasks.length,
+    this.incompleteTasks.length
+  ];
+}
+
+
+
 }

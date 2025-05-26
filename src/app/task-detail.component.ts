@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-task-detail',
   standalone: true,
   imports: [CommonModule, FormsModule],
+    styleUrls: ['./task-detail.component.scss'], // ← add this line
   template: `
     <div class="container">
       <h2>Task Details</h2>
@@ -97,7 +98,7 @@ export class TaskDetailComponent {
       description: this.newSubtaskDescription.trim(),
       completed: false,
       showDescription: false,
-      createdAt: new Date().toISOString(), // ← add this line
+      createdAt: new Date().toISOString(), 
     };
 
     this.task.subtasks = this.task.subtasks || [];
@@ -113,4 +114,6 @@ export class TaskDetailComponent {
     this.task.subtasks = this.task.subtasks?.filter(s => s.id !== subtask.id);
     this.save();
   }
+
+  
 }
