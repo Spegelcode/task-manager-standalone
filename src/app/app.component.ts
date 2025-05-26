@@ -89,6 +89,19 @@ export class AppComponent {
     const done = subtasks.filter(st => st.completed).length;
     return `${done} of ${subtasks.length} done`;
   }
+
+  isTaskCompleted(task: Task) {
+    const subtasks = task.subtasks;
+    return subtasks && subtasks.length > 0 && subtasks.every(st => st.completed);
+  }
+  get CompletedTasks(): Task[] {
+    return this.tasks.filter(task => this.isTaskCompleted(task));
+  }
+  get IncompleteTasks(): Task[] {
+  return this.tasks.filter(task => !this.isTaskCompleted(task));
+}
+
+
   onImportTodo(event: Event): void {
     const target = event.target as HTMLSelectElement;
     const index = Number(target.value);

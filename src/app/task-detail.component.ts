@@ -13,9 +13,8 @@ import { FormsModule } from '@angular/forms';
     <div class="container">
       <h2>Task Details</h2>
       <div *ngIf="task">
-        <p><strong>ID:</strong> {{ task.id }}</p>
         <p><strong>Title:</strong> {{ task.title }}</p>
-        <p><strong>Status:</strong> {{ task.completed ? 'Done' : 'Incomplete' }}</p>
+
 
         <h3>Subtasks</h3>
         <ul>
@@ -29,6 +28,13 @@ import { FormsModule } from '@angular/forms';
                 {{ subtask.showDescription ? 'Hide' : 'Show' }} Description
               </button>
             </div>
+
+            <small style="margin-left: 2rem; color: gray;">
+  Added on: {{ subtask.createdAt | date:'short' }}
+</small>
+
+
+
             <!-- Description, toggled -->
             <div *ngIf="subtask.showDescription" style="margin-left: 2rem; font-style: italic; color: #555;">
               {{ subtask.description || 'No description' }}
@@ -90,7 +96,8 @@ export class TaskDetailComponent {
       title: this.newSubtaskTitle.trim(),
       description: this.newSubtaskDescription.trim(),
       completed: false,
-      showDescription: false,  // initialize the toggle property
+      showDescription: false,
+      createdAt: new Date().toISOString(), // ← add this line
     };
 
     this.task.subtasks = this.task.subtasks || [];

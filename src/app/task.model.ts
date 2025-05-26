@@ -4,6 +4,7 @@ export interface Subtask {
   description?: string; 
   completed: boolean;
   showDescription?: boolean; // toggle property for description visibility
+  createdAt: string;
 }
 
 export interface Task {
