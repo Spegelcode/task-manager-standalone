@@ -1,5 +1,5 @@
-<div class="container">
-  <h1>Task Manager</h1>
+<div class="header">
+    <h1>Task Manager</h1>
   <div style="margin-bottom: 1rem;">
     <input
       type="text"
@@ -15,49 +15,126 @@
       </select>
     </div>
   </div>
-  <form (submit)="addTask(); $event.preventDefault()">
-    <input type="text" [(ngModel)]="newTaskTitle" name="taskTitle" placeholder="Enter a new custom task" />
-    <button type="submit">Add Task</button>
-  </form>
+<form (submit)="addTask(); $event.preventDefault()" style="display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center;">
+  <input
+    type="text"
+    [(ngModel)]="newTaskTitle"
+    name="taskTitle"
+    placeholder="Enter a new custom task"
+    required
+  />
 
-<h2>📋 Incomplete Tasks</h2>
+  <input
+    type="date"
+    [(ngModel)]="newTaskDeadline"
+    name="taskDeadline"
+  />
+
+  <label for="priority">Priority:</label>
+  <select
+    [(ngModel)]="newTaskPriority"
+    name="priority"
+    id="priority"
+    required
+  >
+    <option value="Low">Low</option>
+    <option value="Medium">Medium</option>
+    <option value="High">High</option>
+  </select>
+
+  <button type="submit">Add Task</button>
+</form>
+
+</div>
+
+<div class="container">
+
+
+
 <ul class="task-list">
+  <h2>📋 Incomplete Tasks</h2>
   <li *ngFor="let task of incompleteTasks" class="task-item">
-    <div class="task-header">
-      <span class="task-title">{{ task.title }}</span>
-      <span class="task-progress">{{ getSubtaskProgress(task) }}</span>
+    <div *ngIf="!task.editing; else editModeIncomplete">
+      <div class="task-header">
+        <span class="task-title">{{ task.title }}</span>
+        <span class="task-progress">{{ getSubtaskProgress(task) }}</span>
+        <span *ngIf="task.deadline" class="task-deadline">🗓️ {{ task.deadline }}</span>
+        <span class="task-priority" [ngClass]="task.priority">
+          {{ task.priority }}</span>
+      </div>
+      <div class="task-actions">
+        <button (click)="goToTask(task.id)">👁️ View</button>
+        <button (click)="startEditingTask(task)">✏️ Edit</button>
+        <button (click)="deleteTask(task)">🗑️ Delete</button>
+      </div>
     </div>
-    <div class="task-actions">
-      <button (click)="goToTask(task.id)">👁️ View</button>
-      <button (click)="deleteTask(task)">🗑️ Delete</button>
-    </div>
+
+    <ng-template #editModeIncomplete>
+      <div class="task-edit">
+        <input [(ngModel)]="task.title" placeholder="Edit title" />
+        <input [(ngModel)]="task.deadline" type="date" placeholder="Deadline" />
+        <div class="task-actions">
+          <button (click)="saveEditingTask(task, task.title, task.deadline)">💾 Save</button>
+          <button (click)="cancelTaskEdit(task)">❌ Cancel</button>
+        </div>
+      </div>
+    </ng-template>
   </li>
 </ul>
 
-<h2>✅ Completed Tasks</h2>
+
 <ul class="task-list">
+  <h2>✅ Completed Tasks</h2>
   <li *ngFor="let task of completedTasks" class="task-item completed">
-    <div class="task-header">
-      <span class="task-title">{{ task.title }}</span>
-      <span class="task-progress">{{ getSubtaskProgress(task) }}</span>
+    <div *ngIf="!task.editing; else editModeCompleted">
+      <div class="task-header">
+        <span class="task-title">{{ task.title }}</span>
+        <span class="task-progress">{{ getSubtaskProgress(task) }}</span>
+        <span *ngIf="task.deadline" class="task-deadline">🗓️ {{ task.deadline }}</span>
+      </div>
+      <div class="task-actions">
+        <button (click)="goToTask(task.id)">👁️ View</button>
+        <button (click)="startEditingTask(task)">✏️ Edit</button>
+        <button (click)="deleteTask(task)">🗑️ Delete</button>
+      </div>
     </div>
-    <div class="task-actions">
-      <button (click)="goToTask(task.id)">👁️ View</button>
-      <button (click)="deleteTask(task)">🗑️ Delete</button>
-    </div>
+
+    <ng-template #editModeCompleted>
+      <div class="task-edit">
+        <input [(ngModel)]="task.title" placeholder="Edit title" />
+        <input [(ngModel)]="task.deadline" type="date" placeholder="Deadline" />
+        <div class="task-actions">
+          <button (click)="saveEditingTask(task, task.title, task.deadline)">💾 Save</button>
+          <button (click)="cancelTaskEdit(task)">❌ Cancel</button>
+        </div>
+      </div>
+    </ng-template>
   </li>
 </ul>
 
 
-<div style="max-width: 400px;">
-  <canvas
+
+</div>
+
+<div class="chart-container">
+  <h2>Task Completion Statistics</h2>
+  <div class="chart">
+      <canvas
     baseChart
     [data]="pieChartData"
     [labels]="pieChartLabels"
     [type]="pieChartType">
+    </canvas>
+  </div>
+  <div style="max-width: 600px; margin: auto;">
+  <h3>Task Priority Distribution</h3>
+  <canvas baseChart
+    [data]="barChartData"
+    [type]="barChartType">
   </canvas>
 </div>
 
 
-
 </div>
+
+
