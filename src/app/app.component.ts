@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { Task } from './task.model';
+import { Task, User } from './task.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { NgChartsModule } from 'ng2-charts';
 import { ChartData, ChartType } from 'chart.js';
+import { TaskService } from './task.service';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +19,7 @@ export class AppComponent {
   tasks: Task[] = [];
   newTaskTitle = '';
 
+
   // Filters
   searchText: string = '';
   statusFilter: string = 'all';
@@ -28,7 +30,12 @@ export class AppComponent {
   newTaskDeadline: string = '';
   newTaskPriority: 'Low' | 'Medium' | 'High' = 'Medium';
 
-  constructor(private router: Router, private http: HttpClient) {
+  selectedTaskForUser?: Task;
+  newUserName: string = '';
+  users: User[] = [];
+
+
+  constructor(private router: Router, private http: HttpClient, private taskService: TaskService) {
     const saved = localStorage.getItem('tasks');
     this.tasks = saved ? JSON.parse(saved) : [];
 
@@ -160,6 +167,8 @@ export class AppComponent {
 
   ngOnInit() {
     this.updateChartData();
+    this.users = this.taskService.getUsers();
+    this.tasks = this.taskService.getTasks();
   }
 
   updateChartData() {
@@ -200,4 +209,43 @@ export class AppComponent {
   cancelTaskEdit(task: Task) {
     task.editing = false;
   }
+
+  addUserToTask(task: Task, userName: String){
+    if (!userName.trim()) return;
+
+    const newUser: User = {
+      id: Date.now(),
+      name: userName.trim()
+    };
+
+    if (!task.assignedUsers) {
+      task.assignedUsers = [];
+    }
+
+    const alreadyExists = task.assignedUsers.some (u => u.name === newUser.name); 
+    if (!alreadyExists) {
+      task.assignedUsers.push(newUser);
+      this.saveTasks();
+    }
+
+    this.newUserName = '';
+
+
+  }
+
+  addUser() {
+    if (!this.newUserName.trim()) return;
+    this.taskService.addUser(this.newUserName.trim());
+    this.users = this.taskService.getUsers(); // refresh users
+    this.newUserName = '';
+  }
+
+  assignUserToTask(task: Task, userId: string) {
+    const user = this.users.find(u => u.id === +userId);
+    if (!user) return;
+    this.taskService.assignUserToTask(task.id, user);
+    this.tasks = this.taskService.getTasks(); // refresh tasks
+  }
+
+
 }

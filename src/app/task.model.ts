@@ -8,6 +8,7 @@ export interface Subtask {
   editing?: boolean;
   priority: 'high' | 'medium' | 'low';
     deadline?: string; //
+    assignedUsers?: User[]; // Optional: User assigned to the subtask
 
 }
 
@@ -20,4 +21,10 @@ export interface Task {
   editing?: boolean;
   createdAt?: string; // ISO date string
 priority?: 'Low' | 'Medium' | 'High'; // Optional priority for tasks
+assignedUsers?: User[]; // Optional: Users assigned to the task
+}
+
+export interface User {
+  id: number;
+  name: string;
 }

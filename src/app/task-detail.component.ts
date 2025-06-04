@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Task, Subtask } from './task.model';
 import { FormsModule } from '@angular/forms';
+import { TaskService } from './task.service';
+import { User } from './task.model';
 
 @Component({
   selector: 'app-task-detail',
@@ -20,6 +22,18 @@ import { FormsModule } from '@angular/forms';
         <ul>
           <li *ngFor="let subtask of task.subtasks" style="margin-bottom: 1rem;">
             <!-- Editing mode -->
+             <div>
+  <select #userSelect (change)="assignUserToSubtask(subtask, userSelect.value)">
+    <option value="" disabled selected>Assign user</option>
+    <option *ngFor="let user of users" [value]="user.id">{{ user.name }}</option>
+  </select>
+  <span *ngIf="subtask.assignedUsers?.length">
+    Assigned:
+    <span *ngFor="let user of subtask.assignedUsers; let last = last">
+      {{ user.name }}<span *ngIf="!last">, </span>
+    </span>
+  </span>
+</div>
             <div *ngIf="subtask.editing; else viewMode">
               <input [(ngModel)]="subtask.title" placeholder="Edit title" />
               <textarea [(ngModel)]="subtask.description" placeholder="Edit description"></textarea>
@@ -84,13 +98,15 @@ export class TaskDetailComponent {
   newSubtaskDescription = '';
   newSubtaskPriority: 'low' | 'medium' | 'high' = 'medium'; // ✅ New property
   newSubtaskDeadline: string = ''; // Optional: If you want to add deadlines to subtasks
+  users: User[] = [];
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(private route: ActivatedRoute, private router: Router , private taskService: TaskService) {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     const storedTasks = localStorage.getItem('tasks');
     const tasks: Task[] = storedTasks ? JSON.parse(storedTasks) : [];
     this.task = tasks.find(t => t.id === id);
-  }
+    this.users = this.taskService.getUsers();
+  } 
 
   goBack() {
     this.router.navigate(['/']);
@@ -166,5 +182,16 @@ export class TaskDetailComponent {
     this.task.subtasks.sort((a, b) => {
       return order[a.priority as 'high' | 'medium' | 'low'] - order[b.priority as 'high' | 'medium' | 'low'];
     });
+  }
+
+  assignUserToSubtask(subtask: Subtask, userId: string) {
+    if (!this.task) return;
+    const user = this.users.find(u => u.id === +userId);
+    if (!user) return;
+    this.taskService.assignUserToSubtask(this.task.id, subtask.id, user);
+    const storedTasks = localStorage.getItem('tasks');
+    const tasks: Task[] = storedTasks ? JSON.parse(storedTasks) : [];
+    this.task = tasks.find(t => t.id === this.task?.id);
+
   }
 }
