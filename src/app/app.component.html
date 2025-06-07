@@ -1,34 +1,44 @@
 <div class="header">
-  <h1>Task Manager</h1>
+  <h1 class="header__title">Task Manager</h1>
 
-  <div class="user-input-section">
+  <div class="header__section user-input">
     <input
+      class="user-input__field"
       type="text"
       [(ngModel)]="newUserName"
       placeholder="Add user"
       name="userName"
     />
-    <button (click)="addUser()">Add User</button>
+    <button class="user-input__button" (click)="addUser()">Add User</button>
 
     <div *ngIf="users.length" class="user-list">
-      <strong>Users:</strong>
-      <span *ngFor="let user of users; let last = last">
+      <strong class="user-list__label">Users:</strong>
+      <span *ngFor="let user of users; let last = last" class="user-list__item">
         {{ user.name }}<span *ngIf="!last">, </span>
       </span>
     </div>
   </div>
 
-  <div class="import-section">
-    <select id="externalTodo" (change)="onImportTodo($event)">
+  <div class="header__section import-section">
+    <select
+      id="externalTodo"
+      class="import-section__dropdown"
+      (change)="onImportTodo($event)"
+    >
       <option selected disabled value="">Select a task to import</option>
-      <option *ngFor="let todo of externalTodos; let i = index" [value]="i">
+      <option
+        *ngFor="let todo of externalTodos; let i = index"
+        [value]="i"
+        class="import-section__option"
+      >
         {{ todo.todo | slice:0:50 }}{{ todo.todo.length > 50 ? '…' : '' }}
       </option>
     </select>
   </div>
 
-  <form class="task-form" (submit)="addTask(); $event.preventDefault()">
+  <form class="header__section task-form" (submit)="addTask(); $event.preventDefault()">
     <input
+      class="task-form__input"
       type="text"
       [(ngModel)]="newTaskTitle"
       name="taskTitle"
@@ -36,12 +46,14 @@
       required
     />
     <input
+      class="task-form__date"
       type="date"
       [(ngModel)]="newTaskDeadline"
       name="taskDeadline"
     />
-    <label for="priority">Priority:</label>
+    <label for="priority" class="task-form__label">Priority:</label>
     <select
+      class="task-form__select"
       [(ngModel)]="newTaskPriority"
       name="priority"
       id="priority"
@@ -51,9 +63,10 @@
       <option value="Medium">Medium</option>
       <option value="High">High</option>
     </select>
-    <button type="submit">Add Task</button>
+    <button class="task-form__submit" type="submit">Add Task</button>
   </form>
 </div>
+
 
 <div class="search-text">
   <input

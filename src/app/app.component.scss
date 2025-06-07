@@ -20,6 +20,56 @@
   border-radius: 1rem;
 }
 
+.header {
+  padding: 1rem;
+  background-color: #f9f9f9;
+}
+
+.header__title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.header__section {
+  margin-bottom: 1.5rem;
+}
+
+.user-input__field,
+.task-form__input,
+.task-form__date,
+.task-form__select,
+.import-section__dropdown {
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.user-input__button,
+.task-form__submit {
+  padding: 0.5rem 1rem;
+}
+
+.user-list__label {
+  font-weight: bold;
+}
+
+.user-list__item {
+  margin-right: 0.25rem;
+}
+
+.user-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+.user-list__item {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 8px;
+}
+
+
 /* Container */
 .container {
   display: flex;
