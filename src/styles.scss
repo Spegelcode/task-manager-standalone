@@ -1,1 +1,53 @@
 /* You can add global styles to this file, and also import other style files */
+
+// Color palette
+$primary: #6c63ff;
+$primary-dark: #3f3d56;
+$primary-light: #a393fa;
+$secondary: #f9f9fc;
+$accent: #ffb347;
+$danger: #ff6b6b;
+$success: #43d39e;
+$gray: #f5f6fa;
+$border: #e0e0e0;
+$background: #f7f8fa;
+$text: #232946;
+
+// Font
+$font-family: 'Inter', 'Segoe UI', 'Roboto', Arial, sans-serif;
+
+// Global styles
+body {
+  background: linear-gradient(135deg, $primary-light 0%, $secondary 100%);
+  min-height: 100vh;
+  font-family: $font-family;
+  color: $text;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: $primary;
+  text-decoration: none;
+  transition: color 0.2s;
+  &:hover {
+    color: $accent;
+  }
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  background: $gray;
+}
+::-webkit-scrollbar-thumb {
+  background: $primary-light;
+  border-radius: 8px;
+}
+
+* {
+  box-sizing: border-box;
+}

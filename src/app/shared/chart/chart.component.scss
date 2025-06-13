@@ -1,22 +1,42 @@
+$primary: #6c63ff;
+$primary-light: #a393fa;
+$accent: #ffb347;
+$gray: #f5f6fa;
+
 .chart-container {
-  background: #c5c5e7;
-  border-radius: 14px;
-  box-shadow: 0 2px 12px #a393fa22;
-  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  background: linear-gradient(120deg, $primary-light 0%, $gray 100%);
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 24px #a393fa33;
+  padding: 2.2rem 1.5rem 1.5rem 1.5rem;
   margin: 2rem auto;
   max-width: 500px;
   min-width: 280px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, $accent 60%, transparent 100%);
+    opacity: 0.18;
+    z-index: 0;
+  }
 }
 
 .chart-container h3 {
-  color: #6c63ff;
-  font-weight: 600;
+  color: $primary;
+  font-weight: 700;
   margin-bottom: 1.2rem;
   letter-spacing: 0.5px;
   font-size: 1.3rem;
+  z-index: 1;
 }
 
 canvas {
@@ -25,4 +45,5 @@ canvas {
   height: 280px !important;
   margin: 0 auto;
   display: block;
+  z-index: 1;
 }

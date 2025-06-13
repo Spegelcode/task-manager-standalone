@@ -1,103 +1,227 @@
-// Styles for the main app component
+// Professional dark color palette
+$primary: #232946;
+$primary-dark: #16161a;
+$primary-light: #2e2f3e;
+$secondary: #1a1a2e;
+$accent: #eebc7d;
+$danger: #ff6b6b;
+$success: #43d39e;
+$gray: #282a36;
+$border: #393a4b;
+$background: #181920;
+$text: #f4f4f4;
 
 :host {
   display: block;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Inter', 'Segoe UI', 'Roboto', Arial, sans-serif;
   padding: 2rem;
-  background-color: #ffffff;
-  color: #333;
-  border-radius: 1rem;
+  background: linear-gradient(120deg, $primary-dark 0%, $primary-light 100%);
+  color: $text;
+  min-height: 100vh;
 }
 
 /* Header styles */
 .header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #f0e6e6, #d8d8e2);
-  color: rgb(0, 0, 0);
-  border-radius: 1rem;
-}
+  background: rgba($primary, 0.85);
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 32px rgba($primary, 0.18);
+  padding: 2rem 1rem 1.5rem 1rem;
+  position: relative;
+  overflow: hidden;
 
-.header {
-  padding: 1rem;
-  background-color: #f9f9f9;
+  &::before {
+    content: "";
+    position: absolute;
+    top: -40px;
+    left: -40px;
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, $accent 60%, transparent 100%);
+    opacity: 0.10;
+    z-index: 0;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -40px;
+    right: -40px;
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, $success 60%, transparent 100%);
+    opacity: 0.10;
+    z-index: 0;
+  }
 }
 
 .header__title {
-  font-size: 2rem;
-  margin-bottom: 1rem;
+  font-size: 2.5rem;
+  margin-bottom: 1.2rem;
+  font-weight: 800;
+  color: $accent;
+  letter-spacing: 2px;
+  z-index: 1;
+  text-shadow: 0 2px 8px rgba($primary, 0.18);
 }
 
 .header__section {
   margin-bottom: 1.5rem;
+  z-index: 1;
 }
 
 /* User input and user list styles */
 .header__section.user-input {
-  .user-input__field,
-  .task-form__input,
-  .task-form__date,
-  .task-form__select,
-  .import-section__dropdown {
-    padding: 0.5rem;
-    margin-right: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+
+  .user-input__field {
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    border: 1.5px solid $border;
+    font-size: 1rem;
+    background: $primary-light;
+    color: $text;
+    transition: border 0.2s;
+    &:focus {
+      border: 1.5px solid $accent;
+      outline: none;
+    }
   }
 
-  .user-input__button,
-  .task-form__submit {
-    padding: 0.5rem 1rem;
+  .user-input__button {
+    padding: 0.6rem 1.2rem;
+    background: linear-gradient(90deg, $accent 60%, $primary-light 100%);
+    border: none;
+    border-radius: 8px;
+    color: $primary-dark;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba($primary, 0.07);
+    transition: background 0.2s;
+    &:hover {
+      background: linear-gradient(90deg, $primary-light 60%, $accent 100%);
+      color: $accent;
+    }
+  }
+  .user-list {
+    margin-top: 0.5rem;
+    .user-list__label {
+      font-weight: bold;
+      color: $accent;
+    }
+    .user-list__item {
+      display: inline-flex;
+      align-items: center;
+      margin-right: 8px;
+      font-size: 1rem;
+      color: $success;
+    }
+    button {
+      background: none;
+      border: none;
+      color: $danger;
+      font-size: 1.1rem;
+      margin-left: 0.2rem;
+      cursor: pointer;
+      transition: color 0.2s;
+      &:hover {
+        color: scale-color($danger, $lightness: -10%);
+      }
+    }
   }
 }
 
 /* Import section styles */
 .header__section.import-section {
   select {
-    padding: 0.5rem;
-    margin-right: 0.5rem;
-    border-radius: 0.5rem;
-    border: 1px solid #ccc;
-  }
-
-  button {
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    background-color: #16a085;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-
-  button:hover {
-    background-color: #12876f;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    border: 1.5px solid $border;
+    font-size: 1rem;
+    background: $primary-light;
+    color: $text;
+    transition: border 0.2s;
+    &:focus {
+      border: 1.5px solid $accent;
+      outline: none;
+    }
   }
 }
 
 /* Task form styles */
 .header__section.task-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  align-items: center;
+  justify-content: center;
+
   .task-form__input,
   .task-form__date,
   .task-form__select {
-    padding: 0.5rem;
-    margin-right: 0.5rem;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    border: 1.5px solid $border;
+    font-size: 1rem;
+    background: $primary-light;
+    color: $text;
+    transition: border 0.2s;
+    &:focus {
+      border: 1.5px solid $accent;
+      outline: none;
+    }
   }
 
   .task-form__submit {
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 1.5rem;
+    background: linear-gradient(90deg, $accent 60%, $primary-light 100%);
+    border: none;
+    border-radius: 8px;
+    color: $primary-dark;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba($primary, 0.07);
+    transition: background 0.2s;
+    &:hover {
+      background: linear-gradient(90deg, $primary-light 60%, $accent 100%);
+      color: $accent;
+    }
   }
 }
 
 /* Search input styles */
 .search-text {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   font-size: 1.2rem;
-  color: #333;
+  color: $accent;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  .search-input {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.8rem 1.2rem;
+    border-radius: 10px;
+    border: 1.5px solid $border;
+    font-size: 1.1rem;
+    background: $primary-light;
+    color: $text;
+    transition: border 0.2s;
+    &:focus {
+      border: 1.5px solid $accent;
+      outline: none;
+    }
+  }
 }
 
 /* Main container for task lists */
@@ -106,73 +230,10 @@
   flex-direction: row;
   align-items: flex-start;
   justify-content: center;
-  gap: 2rem;
+  gap: 2.5rem;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
-}
-
-/* Heading */
-h1 {
-  text-align: center;
-  margin-bottom: 1.5rem;
-  color: #2c3e50;
-}
-
-/* Search Input */
-.search-input {
-  width: 100%;
-  max-width: 400px;
-  padding: 0.75rem;
-  border-radius: 0.5rem;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-}
-
-/* Input Group */
-.input-group {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.input-group input {
-  flex: 1;
-  padding: 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-}
-
-.input-group button {
-  padding: 0.75rem 1.25rem;
-  background-color: #2c7be5;
-  color: #fff;
-  border: none;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.input-group button:hover {
-  background-color: #1a5edb;
-}
-
-/* Filters */
-.filters {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1.5rem;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.filters input,
-.filters select {
-  padding: 0.5rem;
-  font-size: 1rem;
-  border-radius: 0.5rem;
-  border: 1px solid #ccc;
+  padding: 2rem 0;
 }
 
 /* Task list styles */
@@ -180,99 +241,145 @@ h1 {
   list-style: none;
   padding: 0;
   margin: 0;
+  min-width: 350px;
+  max-width: 500px;
 }
 
 /* Task item styles */
 .task-item {
-  background: #f4f6f8;
-  border: 1px solid #ddd;
-  border-left: 5px solid #2c7be5;
-  border-radius: 0.75rem;
-  margin-bottom: 1rem;
-  padding: 1rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  transition: background 0.2s ease-in-out;
+  background: $primary-light;
+  border: 1.5px solid $border;
+  border-left: 7px solid $accent;
+  border-radius: 1.2rem;
+  margin-bottom: 1.5rem;
+  padding: 1.3rem 1.2rem 1.1rem 1.5rem;
+  box-shadow: 0 2px 12px rgba($primary, 0.07);
+  transition: background 0.2s, border 0.2s;
+  position: relative;
+  overflow: hidden;
+
+  &.completed {
+    border-left-color: $success;
+    text-decoration: line-through;
+    color: $gray;
+    background: rgba($success, 0.08);
+  }
 }
 
 .task-item:hover {
-  background: #f0f8ff;
+  background: linear-gradient(90deg, $primary-dark 0%, $primary-light 100%);
+  border-left: 7px solid $success;
 }
 
-.task-item.completed {
-  border-left-color: #2ecc71;
-  text-decoration: line-through;
-  color: #000000;
-  background: #ececec;
-}
-
-/* Task header styles */
 .task-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 1.1rem;
-  font-weight: 500;
+  font-size: 1.15rem;
+  font-weight: 600;
   gap: 1rem;
 }
 
 .task-title {
   flex-grow: 1;
   font-weight: bold;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   cursor: pointer;
+  color: $accent;
 }
 
 .task-progress,
 .subtask-progress {
-  font-size: 0.85rem;
-  color: #666;
+  font-size: 0.95rem;
+  color: $success;
   margin-top: 0.25rem;
 }
 
-/* Task actions (buttons) styles */
+.task-priority {
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 0.2rem 0.7rem;
+  border-radius: 8px;
+  background: $primary-dark;
+  color: $accent;
+  margin-left: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
 .task-actions {
-  margin-top: 8px;
+  margin-top: 10px;
+  display: flex;
+  gap: 0.5rem;
 
   button {
-    background-color: #2196f3;
+    background: $accent;
     border: none;
-    color: white;
-    padding: 6px 10px;
-    margin-right: 8px;
-    border-radius: 4px;
+    color: $primary-dark;
+    padding: 7px 14px;
+    border-radius: 7px;
     cursor: pointer;
-    font-size: 0.9rem;
-    transition: background-color 0.2s ease-in-out;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 4px rgba($primary, 0.08);
 
     &:hover {
-      background-color: #1976d2;
+      background: $success;
+      color: $primary-dark;
     }
   }
 
   button:last-child {
-    background-color: #e53935;
-
+    background: $danger;
     &:hover {
-      background-color: #c62828;
+      background: scale-color($danger, $lightness: -10%);
+      color: white;
     }
   }
 }
 
-/* Chart container styles */
-.chart-container {
-  text-align: center;
-  margin-bottom: 2rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #42661f, #000a02);
-  color: #ffffff;
-  border-radius: 1rem;
-  padding: 1rem;
+.assign-user {
+  margin-top: 0.7rem;
+  select {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: 1.5px solid $border;
+    font-size: 1rem;
+    background: $primary-light;
+    color: $text;
+    transition: border 0.2s;
+    &:focus {
+      border: 1.5px solid $accent;
+      outline: none;
+    }
+  }
+  span {
+    margin-left: 0.7rem;
+    color: $success;
+    font-size: 1rem;
+  }
 }
 
-/* External import section styles */
-.external-import {
-  margin-top: 2rem;
+/* Chart container styles */
+.chart-section {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 1100px) {
+  .container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2rem;
+  }
+  .chart-section {
+    flex-direction: column;
+    gap: 2rem;
+  }
 }

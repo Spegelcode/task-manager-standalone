@@ -1,40 +1,45 @@
 $primary: #6c63ff;
 $primary-light: #a393fa;
+$primary-dark: #3f3d56;
 $secondary: #f9f9fc;
 $accent: #ffb347;
 $danger: #ff6b6b;
 $success: #43d39e;
 $gray: #f5f6fa;
 $border: #e0e0e0;
+$background: #f7f8fa;
+$text: #232946;
 
 .container {
   max-width: 800px;
-  margin: 2rem auto;
+  margin: 2.5rem auto;
   padding: 2.5rem 2rem;
-  background: linear-gradient(135deg, $secondary 70%, $primary-light 100%);
-  border-radius: 18px;
-  box-shadow: 0 8px 32px rgba(108, 99, 255, 0.08);
-  font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+  background: rgba($secondary, 0.95);
+  border-radius: 2rem;
+  box-shadow: 0 8px 32px rgba($primary, 0.10);
+  font-family: 'Inter', 'Segoe UI', 'Roboto', Arial, sans-serif;
+  backdrop-filter: blur(2px);
 
   h2 {
     margin-bottom: 1.5rem;
-    color: $primary;
-    font-weight: 700;
+    color: $primary-dark;
+    font-weight: 800;
     letter-spacing: 1px;
-    font-size: 2rem;
+    font-size: 2.2rem;
+    text-shadow: 0 2px 8px rgba($primary, 0.08);
   }
 
   p {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     margin-bottom: 1.5rem;
-    color: #444;
+    color: $primary-dark;
   }
 
   h3 {
     margin-top: 2rem;
     margin-bottom: 1rem;
     color: $primary;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 1.3rem;
   }
 
@@ -45,10 +50,17 @@ $border: #e0e0e0;
     li {
       background: white;
       padding: 1.2rem 1rem 1rem 1.2rem;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(108, 99, 255, 0.07);
+      border-radius: 1.2rem;
+      box-shadow: 0 2px 12px rgba($primary, 0.07);
       margin-bottom: 1.2rem;
-      border-left: 5px solid $primary;
+      border-left: 6px solid $primary;
+      position: relative;
+      transition: border 0.2s, box-shadow 0.2s;
+
+      &:hover {
+        border-left: 6px solid $accent;
+        box-shadow: 0 4px 16px rgba($primary, 0.13);
+      }
 
       .subtask-header {
         display: flex;
@@ -63,7 +75,7 @@ $border: #e0e0e0;
 
         span {
           font-size: 1.05rem;
-          color: #333;
+          color: $primary-dark;
         }
 
         button {
@@ -105,7 +117,7 @@ $border: #e0e0e0;
         margin-left: 2rem;
         display: block;
         color: #888;
-        font-size: 0.85rem;
+        font-size: 0.9rem;
         margin-top: 0.3rem;
       }
 
@@ -127,8 +139,8 @@ $border: #e0e0e0;
     flex-direction: column;
     gap: 0.7rem;
     margin-top: 2rem;
-    background: $gray;
-    border-radius: 10px;
+    background: rgba($gray, 0.8);
+    border-radius: 1rem;
     padding: 1.2rem 1rem;
 
     input[type='text'],
@@ -136,8 +148,8 @@ $border: #e0e0e0;
     input[type='date'],
     select {
       padding: 0.7rem;
-      border-radius: 7px;
-      border: 1px solid $border;
+      border-radius: 8px;
+      border: 1.5px solid $primary-light;
       font-size: 1rem;
       width: 100%;
       background: white;
@@ -153,13 +165,13 @@ $border: #e0e0e0;
       padding: 0.7rem 1.5rem;
       background: linear-gradient(90deg, $primary 60%, $primary-light 100%);
       border: none;
-      border-radius: 7px;
+      border-radius: 8px;
       color: white;
       font-weight: bold;
       cursor: pointer;
       font-size: 1rem;
       letter-spacing: 0.5px;
-      box-shadow: 0 2px 8px rgba(108, 99, 255, 0.07);
+      box-shadow: 0 2px 8px rgba($primary, 0.07);
       transition: background 0.2s;
 
       &:hover {
@@ -173,10 +185,10 @@ $border: #e0e0e0;
     padding: 0.7rem 1.5rem;
     background: $primary;
     border: none;
-    border-radius: 7px;
+    border-radius: 8px;
     color: white;
     cursor: pointer;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 1rem;
     transition: background 0.2s;
 
