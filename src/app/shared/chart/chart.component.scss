@@ -1,0 +1,28 @@
+.chart-container {
+  background: #c5c5e7;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px #a393fa22;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  margin: 2rem auto;
+  max-width: 500px;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chart-container h3 {
+  color: #6c63ff;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  letter-spacing: 0.5px;
+  font-size: 1.3rem;
+}
+
+canvas {
+  width: 100% !important;
+  max-width: 420px;
+  height: 280px !important;
+  margin: 0 auto;
+  display: block;
+}

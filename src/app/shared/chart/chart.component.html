@@ -1,0 +1,9 @@
+<div class="chart-container">
+  <h3 *ngIf="chartTitle">{{ chartTitle }}</h3>
+  <canvas
+    baseChart
+    [data]="chartData"
+    [type]="chartType"
+    [labels]="chartLabels">
+  </canvas>
+</div>

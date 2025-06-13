@@ -105,6 +105,13 @@ removeUserFromTask(taskId: number, userId: number): void {
   task.assignedUsers = task.assignedUsers.filter((u: User) => u.id !== userId);
   this.save();
 }
+updateTask(updatedTask: Task): void {
+  const index = this.tasks.findIndex(t => t.id === updatedTask.id);
+  if (index !== -1) {
+    this.tasks[index] = updatedTask;
+    this.save();
+  }
+}
 
 
 }

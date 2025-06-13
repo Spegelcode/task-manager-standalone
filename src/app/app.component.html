@@ -1,5 +1,5 @@
 <div class="header">
-<h1 class="header__title">{{ 'Task Manager' | capitalize }}</h1>
+  <h1 class="header__title">{{ 'Task Manager' | capitalize }}</h1>
   <div class="header__section user-input">
     <input
       class="user-input__field"
@@ -16,10 +16,10 @@
         <span *ngIf="!last">, </span>
       </span>
       <span *ngFor="let user of users; let last = last">
-  {{ user.name }}
-<button (click)="deleteUser(user.id)">❌</button>
-  <span *ngIf="!last">, </span>
-</span>
+        {{ user.name }}
+        <button (click)="deleteUser(user.id)">❌</button>
+        <span *ngIf="!last">, </span>
+      </span>
     </div>
   </div>
 
@@ -71,7 +71,6 @@
   </form>
 </div>
 
-
 <div class="search-text">
   <input
     class="search-input"
@@ -82,10 +81,11 @@
 </div>
 
 <div class="container">
-  
   <ul class="task-list">
     <h2>📋 Incomplete Tasks</h2>
-    <li *ngFor="let task of incompleteTasks" class="task-item">
+    <li *ngFor="let task of incompleteTasks"
+        class="task-item"
+        [appDifficultyColor]="task.priority ?? 'Medium'">
       <div *ngIf="!task.editing; else editModeIncomplete">
         <div class="task-header">
           <span class="task-title">{{ task.title }}</span>
@@ -128,7 +128,9 @@
 
   <ul class="task-list">
     <h2>✅ Completed Tasks</h2>
-    <li *ngFor="let task of completedTasks" class="task-item completed">
+    <li *ngFor="let task of completedTasks"
+        class="task-item completed"
+        [appDifficultyColor]="task.priority ?? 'Medium'">
       <div *ngIf="!task.editing; else editModeCompleted">
         <div class="task-header">
           <span class="task-title">{{ task.title }}</span>
@@ -162,25 +164,18 @@
   </ul>
 </div>
 
-<div class="chart-container">
-  <div>
-      <h3>Task Completion Statistics</h3>
-  <div class="chart">
-    <canvas
-      baseChart
-      [data]="pieChartData"
-      [labels]="pieChartLabels"
-      [type]="pieChartType">
-    </canvas>
-  </div>
-  </div>
+<div class="chart-section">
+  <app-chart
+    [chartData]="pieChartData"
+    [chartType]="pieChartType"
+    [chartLabels]="pieChartLabels"
+    chartTitle="Task Completion Statistics">
+  </app-chart>
 
-
-  <div class="bar-chart">
-    <h3>Task Priority Distribution</h3>
-    <canvas baseChart
-      [data]="barChartData"
-      [type]="barChartType">
-    </canvas>
-  </div>
+  <app-chart
+    [chartData]="barChartData"
+    [chartType]="barChartType"
+    [chartLabels]="barChartLabels"
+    chartTitle="Task Priority Distribution">
+  </app-chart>
 </div>

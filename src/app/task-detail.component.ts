@@ -107,21 +107,15 @@ export class TaskDetailComponent {
     this.task = tasks.find(t => t.id === id);
     this.users = this.taskService.getUsers();
   } 
+goBack() {
+  this.router.navigate(['/']);
+}
 
-  goBack() {
-    this.router.navigate(['/']);
+save() {
+  if (this.task) {
+    this.taskService.updateTask(this.task);
   }
-
-  save() {
-    const storedTasks = localStorage.getItem('tasks');
-    let tasks: Task[] = storedTasks ? JSON.parse(storedTasks) : [];
-    const index = tasks.findIndex(t => t.id === this.task?.id);
-    if (index !== -1 && this.task) {
-      tasks[index] = this.task;
-      localStorage.setItem('tasks', JSON.stringify(tasks));
-    }
-  }
-
+}
   addSubtask() {
     if (!this.task || !this.newSubtaskTitle.trim()) return;
 
