@@ -1,6 +1,8 @@
+<!-- Header section with app title and user input -->
 <div class="header">
   <h1 class="header__title">{{ 'Task Manager' | capitalize }}</h1>
   <div class="header__section user-input">
+    <!-- Input for adding a new user -->
     <input
       class="user-input__field"
       type="text"
@@ -10,8 +12,10 @@
     />
     <button class="user-input__button" (click)="addUser()">Add User</button>
 
+    <!-- List of users -->
     <div *ngIf="users.length" class="user-list">
       <strong class="user-list__label">Users:</strong>
+      <!-- User names with delete button -->
       <span *ngFor="let user of users; let last = last" class="user-list__item">
         <span *ngIf="!last">, </span>
       </span>
@@ -23,6 +27,7 @@
     </div>
   </div>
 
+  <!-- Section for importing tasks from an external API -->
   <div class="header__section import-section">
     <select
       id="externalTodo"
@@ -40,6 +45,7 @@
     </select>
   </div>
 
+  <!-- Form for adding a new task -->
   <form class="header__section task-form" (submit)="addTask(); $event.preventDefault()">
     <input
       class="task-form__input"
@@ -71,6 +77,7 @@
   </form>
 </div>
 
+<!-- Search input for filtering tasks by title -->
 <div class="search-text">
   <input
     class="search-input"
@@ -80,7 +87,9 @@
   />
 </div>
 
+<!-- Main container for task lists -->
 <div class="container">
+  <!-- List of incomplete tasks -->
   <ul class="task-list">
     <h2>📋 Incomplete Tasks</h2>
     <li *ngFor="let task of incompleteTasks"
@@ -100,6 +109,7 @@
         </div>
       </div>
 
+      <!-- Assign user to task -->
       <div class="assign-user">
         <select #userSelect (change)="assignUserToTask(task, userSelect.value)">
           <option value="" disabled selected>Assign user</option>
@@ -113,6 +123,7 @@
         </span>
       </div>
 
+      <!-- Edit mode for incomplete tasks -->
       <ng-template #editModeIncomplete>
         <div class="task-edit">
           <input [(ngModel)]="task.title" placeholder="Edit title" />
@@ -126,6 +137,7 @@
     </li>
   </ul>
 
+  <!-- List of completed tasks -->
   <ul class="task-list">
     <h2>✅ Completed Tasks</h2>
     <li *ngFor="let task of completedTasks"
@@ -144,6 +156,7 @@
         </div>
       </div>
 
+      <!-- Edit mode for completed tasks -->
       <ng-template #editModeCompleted>
         <div class="task-edit">
           <input [(ngModel)]="task.title" placeholder="Edit title" />
@@ -164,6 +177,7 @@
   </ul>
 </div>
 
+<!-- Section for displaying charts -->
 <div class="chart-section">
   <app-chart
     [chartData]="pieChartData"

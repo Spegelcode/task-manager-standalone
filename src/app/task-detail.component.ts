@@ -1,4 +1,4 @@
-// src/app/task-detail.component.ts
+// This component shows the details for a single task
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,6 +13,7 @@ import { User } from './task.model';
   imports: [CommonModule, FormsModule],
   styleUrls: ['./task-detail.component.scss'],
   template: `
+    <!-- The template shows the details for the selected task -->
     <div class="container">
       <h2>Task Details</h2>
       <div *ngIf="task">
@@ -21,27 +22,27 @@ import { User } from './task.model';
         <h3>Subtasks</h3>
         <ul>
           <li *ngFor="let subtask of task.subtasks" style="margin-bottom: 1rem;">
-            <!-- Editing mode -->
-             <div>
-  <select #userSelect (change)="assignUserToSubtask(subtask, userSelect.value)">
-    <option value="" disabled selected>Assign user</option>
-    <option *ngFor="let user of users" [value]="user.id">{{ user.name }}</option>
-  </select>
-  <span *ngIf="subtask.assignedUsers?.length">
-    Assigned:
-    <span *ngFor="let user of subtask.assignedUsers; let last = last">
-      {{ user.name }}<span *ngIf="!last">, </span>
-    </span>
-  </span>
-</div>
+            <!-- Assign user to subtask -->
+            <div>
+              <select #userSelect (change)="assignUserToSubtask(subtask, userSelect.value)">
+                <option value="" disabled selected>Assign user</option>
+                <option *ngFor="let user of users" [value]="user.id">{{ user.name }}</option>
+              </select>
+              <span *ngIf="subtask.assignedUsers?.length">
+                Assigned:
+                <span *ngFor="let user of subtask.assignedUsers; let last = last">
+                  {{ user.name }}<span *ngIf="!last">, </span>
+                </span>
+              </span>
+            </div>
+            <!-- Edit subtask mode -->
             <div *ngIf="subtask.editing; else viewMode">
               <input [(ngModel)]="subtask.title" placeholder="Edit title" />
               <textarea [(ngModel)]="subtask.description" placeholder="Edit description"></textarea>
               <button (click)="saveSubtaskEdit(subtask, subtask.title, subtask.description)">💾 Save</button>
               <button (click)="cancelSubtaskEdit(subtask)">❌ Cancel</button>
             </div>
-
-            <!-- View mode -->
+            <!-- View subtask mode -->
             <ng-template #viewMode>
               <div style="display: flex; align-items: center; gap: 10px;">
                 <input type="checkbox" [(ngModel)]="subtask.completed" (change)="save()" />
@@ -64,6 +65,7 @@ import { User } from './task.model';
           </li>
         </ul>
 
+        <!-- Form to add a new subtask -->
         <form (submit)="addSubtask(); $event.preventDefault()" style="margin-top: 1rem;">
           <input
             type="text"
@@ -93,13 +95,17 @@ import { User } from './task.model';
   `
 })
 export class TaskDetailComponent {
+  // The current task being shown
   task: Task | undefined;
+  // Fields for adding a new subtask
   newSubtaskTitle = '';
   newSubtaskDescription = '';
   newSubtaskPriority: 'low' | 'medium' | 'high' = 'medium'; // ✅ New property
   newSubtaskDeadline: string = ''; // Optional: If you want to add deadlines to subtasks
+  // List of users
   users: User[] = [];
 
+  // Get the task and users when the component loads
   constructor(private route: ActivatedRoute, private router: Router , private taskService: TaskService) {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     const storedTasks = localStorage.getItem('tasks');
@@ -107,15 +113,19 @@ export class TaskDetailComponent {
     this.task = tasks.find(t => t.id === id);
     this.users = this.taskService.getUsers();
   } 
-goBack() {
-  this.router.navigate(['/']);
-}
 
-save() {
-  if (this.task) {
-    this.taskService.updateTask(this.task);
+  // Go back to the main page
+  goBack() {
+    this.router.navigate(['/']);
   }
-}
+
+  // Save changes to the task
+  save() {
+    if (this.task) {
+      this.taskService.updateTask(this.task);
+    }
+  }
+  // Add a new subtask to the task
   addSubtask() {
     if (!this.task || !this.newSubtaskTitle.trim()) return;
 
@@ -141,16 +151,19 @@ save() {
     this.newSubtaskPriority = 'medium'; // Reset
   }
 
+  // Delete a subtask from the task
   deleteSubtask(subtask: Subtask) {
     if (!this.task) return;
     this.task.subtasks = this.task.subtasks?.filter(s => s.id !== subtask.id);
     this.save();
   }
 
+  // Start editing a subtask
   startEditingSubtask(subtask: Subtask) {
     subtask.editing = true;
   }
 
+  // Save changes to a subtask after editing
   saveSubtaskEdit(subtask: Subtask, newTitle: string, newDescription?: string) {
     subtask.title = newTitle.trim();
     if (newDescription !== undefined) {
@@ -160,10 +173,12 @@ save() {
     this.save();
   }
 
+  // Cancel editing a subtask
   cancelSubtaskEdit(subtask: Subtask) {
     subtask.editing = false;
   }
 
+  // Sort subtasks by priority
   giveSubTaskPriority() {
     if (!this.task?.subtasks) return;
 
@@ -178,6 +193,7 @@ save() {
     });
   }
 
+  // Assign a user to a subtask
   assignUserToSubtask(subtask: Subtask, userId: string) {
     if (!this.task) return;
     const user = this.users.find(u => u.id === +userId);

@@ -1,3 +1,4 @@
+// This is the main component for the app
 import { Component, OnInit } from '@angular/core';
 import { Task, User } from './task.model';
 import { CommonModule } from '@angular/common';
@@ -29,24 +30,25 @@ import { DifficultyColorDirective } from './difficulty-color.directive';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  // Task and user data
+  // List of all tasks
   tasks: Task[] = [];
+  // List of all users
   users: User[] = [];
 
-  // Form fields
+  // Fields for adding a new task
   newTaskTitle = '';
   newTaskDeadline: string = '';
   newTaskPriority: 'Low' | 'Medium' | 'High' = 'Medium';
   newUserName: string = '';
 
-  // Filters
+  // Fields for filtering tasks
   searchText: string = '';
   statusFilter: string = 'all';
 
-  // External todos
+  // List of tasks from an external API
   externalTodos: any[] = [];
 
-  // Chart data
+  // Data for the bar chart
   public barChartLabels: string[] = ['Low', 'Medium', 'High'];
   public barChartData: ChartData<'bar', number[], string> = {
     labels: this.barChartLabels,
@@ -60,6 +62,7 @@ export class AppComponent implements OnInit {
   };
   public barChartType: ChartType = 'bar';
 
+  // Data for the pie chart
   public pieChartLabels: string[] = ['Completed', 'Incomplete'];
   public pieChartData: ChartData<'pie', number[], string> = {
     labels: this.pieChartLabels,
@@ -71,14 +74,16 @@ export class AppComponent implements OnInit {
   };
   public pieChartType: ChartType = 'pie';
 
+  // The constructor sets up the component and loads data
   constructor(
     private router: Router,
     private http: HttpClient,
     private taskService: TaskService
   ) {
-    // Fetch external todos with error handling
+    // Get tasks from an external API
     this.http.get<any>('https://dummyjson.com/todos').pipe(
       catchError(error => {
+        // If there is an error, log it and use an empty list
         console.error('Failed to fetch external todos:', error);
         return of({ todos: [] });
       })
@@ -86,7 +91,7 @@ export class AppComponent implements OnInit {
       this.externalTodos = data.todos;
     });
 
-    // Refresh tasks/users/charts on every navigation event
+    // Update tasks and users when the route changes
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
@@ -96,14 +101,15 @@ export class AppComponent implements OnInit {
     });
   }
 
+  // This runs when the component is first loaded
   ngOnInit() {
-    // Initial load of tasks and users
+    // Load tasks and users from storage
     this.tasks = this.taskService.getTasks();
     this.users = this.taskService.getUsers();
     this.updateChartData();
   }
 
-  // Filtered lists for template
+  // Get all completed tasks
   get completedTasks(): Task[] {
     return this.tasks.filter(
       task =>
@@ -115,6 +121,7 @@ export class AppComponent implements OnInit {
     );
   }
 
+  // Get all incomplete tasks
   get incompleteTasks(): Task[] {
     return this.tasks.filter(
       task =>
@@ -126,7 +133,7 @@ export class AppComponent implements OnInit {
     );
   }
 
-  // Add a new task
+  // Add a new task to the list
   addTask() {
     if (!this.newTaskTitle.trim()) return;
     const newTask: Task = {
@@ -145,7 +152,7 @@ export class AppComponent implements OnInit {
     this.updateChartData();
   }
 
-  // Import a todo from external API
+  // Add a task from the external API
   importTodo(todo: any) {
     const newTask: Task = {
       id: Date.now(),
@@ -158,31 +165,31 @@ export class AppComponent implements OnInit {
     this.updateChartData();
   }
 
-  // Save tasks to localStorage
+  // Save the list of tasks to local storage
   saveTasks() {
     localStorage.setItem('tasks', JSON.stringify(this.tasks));
   }
 
-  // Delete a task
+  // Remove a task from the list
   deleteTask(task: Task) {
     this.tasks = this.tasks.filter(t => t.id !== task.id);
     this.saveTasks();
     this.updateChartData();
   }
 
-  // Toggle task completion
+  // Mark a task as done or not done
   toggleTask(task: Task) {
     task.completed = !task.completed;
     this.saveTasks();
     this.updateChartData();
   }
 
-  // Go to task detail view
+  // Go to the detail page for a task
   goToTask(id: number) {
     this.router.navigate(['/task', id]);
   }
 
-  // Subtask progress string
+  // Show how many subtasks are done for a task
   getSubtaskProgress(task: Task): string {
     const subtasks = task.subtasks;
     if (!subtasks || subtasks.length === 0) return '';
@@ -195,7 +202,7 @@ export class AppComponent implements OnInit {
     task.editing = true;
   }
 
-  // Save edited task
+  // Save changes to a task after editing
   saveEditingTask(task: Task, newTitle: string, newDeadline?: string) {
     task.title = newTitle.trim();
     if (newDeadline) {
@@ -211,7 +218,7 @@ export class AppComponent implements OnInit {
     task.editing = false;
   }
 
-  // Add a user to a task (by name)
+  // Add a user to a task by name
   addUserToTask(task: Task, userName: string) {
     if (!userName.trim()) return;
     const newUser: User = {
@@ -237,7 +244,7 @@ export class AppComponent implements OnInit {
     this.newUserName = '';
   }
 
-  // Assign a user to a task by userId
+  // Assign a user to a task by user id
   assignUserToTask(task: Task, userId: string) {
     const user = this.users.find(u => u.id === +userId);
     if (!user) return;
@@ -245,21 +252,21 @@ export class AppComponent implements OnInit {
     this.tasks = this.taskService.getTasks();
   }
 
-  // Delete a user from the user list
+  // Remove a user from the user list
   deleteUser(userId: number) {
     this.taskService.deleteUser(userId);
     this.users = this.taskService.getUsers();
   }
 
-  // Update chart data for both charts
+  // Update the data for the charts
   updateChartData() {
-    // Pie chart: completed vs incomplete
+    // Update the pie chart for completed and incomplete tasks
     this.pieChartData.datasets[0].data = [
       this.completedTasks.length,
       this.incompleteTasks.length
     ];
 
-    // Bar chart: tasks by priority
+    // Update the bar chart for task priorities
     const priorityCount = { Low: 0, Medium: 0, High: 0 };
     for (const task of this.tasks) {
       if (task.priority && priorityCount.hasOwnProperty(task.priority)) {
@@ -273,7 +280,7 @@ export class AppComponent implements OnInit {
     ];
   }
 
-  // Handle importing a todo from the dropdown
+  // Import a todo from the dropdown menu
   onImportTodo(event: Event): void {
     const target = event.target as HTMLSelectElement;
     const index = Number(target.value);

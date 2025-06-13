@@ -4,10 +4,12 @@ import { TaskService } from './task.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 
+// Tests for the TaskDetailComponent
 describe('TaskDetailComponent', () => {
   let component: TaskDetailComponent;
   let taskService: TaskService;
 
+  // Set up the test environment before each test
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TaskDetailComponent],
@@ -29,10 +31,12 @@ describe('TaskDetailComponent', () => {
     };
   });
 
+  // Test that the component is created
   it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
+  // Test that a subtask can be added
   it('should add a subtask', () => {
     component.newSubtaskTitle = 'Subtask 1';
     component.addSubtask();
