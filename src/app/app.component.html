@@ -1,6 +1,5 @@
 <div class="header">
-  <h1 class="header__title">Task Manager</h1>
-
+<h1 class="header__title">{{ 'Task Manager' | capitalize }}</h1>
   <div class="header__section user-input">
     <input
       class="user-input__field"
@@ -14,8 +13,13 @@
     <div *ngIf="users.length" class="user-list">
       <strong class="user-list__label">Users:</strong>
       <span *ngFor="let user of users; let last = last" class="user-list__item">
-        {{ user.name }}<span *ngIf="!last">, </span>
+        <span *ngIf="!last">, </span>
       </span>
+      <span *ngFor="let user of users; let last = last">
+  {{ user.name }}
+<button (click)="deleteUser(user.id)">❌</button>
+  <span *ngIf="!last">, </span>
+</span>
     </div>
   </div>
 
@@ -142,6 +146,12 @@
         <div class="task-edit">
           <input [(ngModel)]="task.title" placeholder="Edit title" />
           <input [(ngModel)]="task.deadline" type="date" placeholder="Deadline" />
+          <div class="task-priority" [ngClass]="task.priority">{{ task.priority }}</div>
+          <select [(ngModel)]="task.priority" name="priority">
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
           <div class="task-actions">
             <button (click)="saveEditingTask(task, task.title, task.deadline)">💾 Save</button>
             <button (click)="cancelTaskEdit(task)">❌ Cancel</button>

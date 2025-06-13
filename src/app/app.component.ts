@@ -7,11 +7,14 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { NgChartsModule } from 'ng2-charts';
 import { ChartData, ChartType } from 'chart.js';
 import { TaskService } from './task.service';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { CapitalizePipe } from './capitalize.pipe';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule, NgChartsModule],
+  imports: [CommonModule, FormsModule, HttpClientModule, NgChartsModule, CapitalizePipe],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
@@ -39,8 +42,14 @@ export class AppComponent {
     const saved = localStorage.getItem('tasks');
     this.tasks = saved ? JSON.parse(saved) : [];
 
-    // Fetch external todos
-    this.http.get<any>('https://dummyjson.com/todos').subscribe(data => {
+    // Fetch external todos with error handling
+    this.http.get<any>('https://dummyjson.com/todos').pipe(
+      catchError(error => {
+        console.error('Failed to fetch external todos:', error);
+        // Optionally show a user-friendly message here
+        return of({ todos: [] }); // Return tom lista vid fel
+      })
+    ).subscribe(data => {
       this.externalTodos = data.todos;
     });
   }
@@ -245,6 +254,11 @@ export class AppComponent {
     if (!user) return;
     this.taskService.assignUserToTask(task.id, user);
     this.tasks = this.taskService.getTasks(); // refresh tasks
+  }
+
+  deleteUser(userId: number) {
+    this.taskService.deleteUser(userId);
+    this.users = this.taskService.getUsers(); // refresh users
   }
 
 
