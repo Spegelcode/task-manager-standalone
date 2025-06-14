@@ -57,6 +57,9 @@ export class TaskService {
 
   // Get all tasks
   getTasks(): Task[] {
+    // Always fetch the latest from localStorage to avoid stale data
+    const stored = localStorage.getItem('tasks');
+    this.tasks = stored ? JSON.parse(stored) : [];
     return this.tasks;
   }
 

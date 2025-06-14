@@ -31,7 +31,10 @@ import { User } from './task.model';
               <span *ngIf="subtask.assignedUsers?.length">
                 Assigned:
                 <span *ngFor="let user of subtask.assignedUsers; let last = last">
-                  {{ user.name }}<span *ngIf="!last">, </span>
+                  {{ user.name }}
+                  <button (click)="removeUserFromSubtask(subtask, user.id)">❌</button>
+                  <span *ngIf="!last">, </span>
+                  
                 </span>
               </span>
             </div>
@@ -203,5 +206,13 @@ export class TaskDetailComponent {
     const tasks: Task[] = storedTasks ? JSON.parse(storedTasks) : [];
     this.task = tasks.find(t => t.id === this.task?.id);
 
+  }
+
+  removeUserFromSubtask(subtask: Subtask, userId: number) {
+    if (!this.task) return;
+    this.taskService.removeUserFromSubtask(this.task.id, subtask.id, userId);
+    const storedTasks = localStorage.getItem('tasks');
+    const tasks: Task[] = storedTasks ? JSON.parse(storedTasks) : [];
+    this.task = tasks.find(t => t.id === this.task?.id);
   }
 }

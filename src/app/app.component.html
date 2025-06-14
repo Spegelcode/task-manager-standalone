@@ -118,7 +118,9 @@
         <span *ngIf="task.assignedUsers?.length">
           Assigned:
           <span *ngFor="let user of task.assignedUsers; let last = last">
-            {{ user.name }}<span *ngIf="!last">, </span>
+            {{ user.name }}
+            <button (click)="removeUserFromTask(task, user.id)" title="Remove user" style="background:none;border:none;color:#ff6b6b;cursor:pointer;">❌</button>
+            <span *ngIf="!last">, </span>
           </span>
         </span>
       </div>

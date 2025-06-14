@@ -249,7 +249,6 @@ $text: #f4f4f4;
 .task-item {
   background: $primary-light;
   border: 1.5px solid $border;
-  border-left: 7px solid $accent;
   border-radius: 1.2rem;
   margin-bottom: 1.5rem;
   padding: 1.3rem 1.2rem 1.1rem 1.5rem;
@@ -257,13 +256,9 @@ $text: #f4f4f4;
   transition: background 0.2s, border 0.2s;
   position: relative;
   overflow: hidden;
+  
 
-  &.completed {
-    border-left-color: $success;
-    text-decoration: line-through;
-    color: $gray;
-    background: rgba($success, 0.08);
-  }
+
 }
 
 .task-item:hover {
@@ -285,7 +280,7 @@ $text: #f4f4f4;
   font-weight: bold;
   font-size: 1.15rem;
   cursor: pointer;
-  color: $accent;
+  color: $text;
 }
 
 .task-progress,

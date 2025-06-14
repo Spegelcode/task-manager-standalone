@@ -258,6 +258,12 @@ export class AppComponent implements OnInit {
     this.users = this.taskService.getUsers();
   }
 
+  // Remove a user from a task
+  removeUserFromTask(task: Task, userId: number) {
+    this.taskService.removeUserFromTask(task.id, userId);
+    this.tasks = this.taskService.getTasks();
+  }
+
   // Update the data for the charts
   updateChartData() {
     // Update the pie chart for completed and incomplete tasks

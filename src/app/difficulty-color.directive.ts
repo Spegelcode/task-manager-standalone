@@ -15,16 +15,16 @@ export class DifficultyColorDirective implements OnChanges {
     let gradient = '';
     switch ((this.difficulty || '').toLowerCase()) {
       case 'high':
-        gradient = 'linear-gradient(90deg,rgb(243, 81, 70) 60%, #ff7961 100%)'; // red to light red
+        gradient = 'linear-gradient(90deg,rgb(0, 0, 0) 60%, #ff7961 100%)'; 
         break;
       case 'medium':
-        gradient = 'linear-gradient(90deg,rgb(243, 165, 48) 60%, #ffd54f 100%)'; // orange to light orange
+        gradient = 'linear-gradient(90deg,rgb(17, 17, 17) 60%, #ffd54f 100%)'; 
         break;
       case 'low':
-        gradient = 'linear-gradient(90deg, #4caf50 60%, #a5d6a7 100%)'; // green to light green
+        gradient = 'linear-gradient(90deg,rgb(0, 0, 0) 60%, #a5d6a7 100%)'; 
         break;
       default:
-        gradient = 'linear-gradient(90deg, #bdbdbd 60%, #e0e0e0 100%)'; // gray to light gray
+        gradient = 'linear-gradient(90deg, #bdbdbd 60%, #e0e0e0 100%)'; 
     }
     this.renderer.setStyle(this.el.nativeElement, 'background', gradient);
     this.renderer.setStyle(this.el.nativeElement, 'color', '#fff');
