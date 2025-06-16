@@ -1,5 +1,5 @@
 // This is the main component for the app
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { Task, User } from './task.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';

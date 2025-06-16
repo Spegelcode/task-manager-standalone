@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Task, Subtask, User } from './task.model';
+import { Task, User } from './task.model';
 
 // This service manages tasks and users
 @Injectable({
