@@ -13,6 +13,7 @@ import { of } from 'rxjs';
 import { CapitalizePipe } from './capitalize.pipe';
 import { ChartComponent } from './shared/chart/chart.component';
 import { DifficultyColorDirective } from './difficulty-color.directive';
+import { TaskCounterComponent } from './TaskCounter.component';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +25,8 @@ import { DifficultyColorDirective } from './difficulty-color.directive';
     NgChartsModule,
     CapitalizePipe,
     ChartComponent,
-    DifficultyColorDirective
+    DifficultyColorDirective,
+    TaskCounterComponent
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
@@ -78,9 +80,10 @@ export class AppComponent implements OnInit {
   constructor(
     private router: Router,
     private http: HttpClient,
-    private taskService: TaskService
+    private taskService: TaskService,
+    
   ) {
-    // Get tasks from an external API
+    // Get tasks from an external API make a signal here 
     this.http.get<any>('https://dummyjson.com/todos').pipe(
       catchError(error => {
         // If there is an error, log it and use an empty list
